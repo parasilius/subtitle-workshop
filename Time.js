@@ -43,10 +43,16 @@ class Time {
 
 // checking the class
 
-const myTime = new Time("00:14:31,134");
+const myTimeString = "00:14:31,134"
+const myTime = new Time(myTimeString);
 
+console.log(`${myTimeString} is:`)
 console.log(`Hour: ${myTime.hour}`);
 console.log(`Minute: ${myTime.minute}`);
 console.log(`Second: ${myTime.second}`);
+
+// results can be checked with https://www.calculator.net/time-calculator.html
 let seconds = "91.712";
-console.log(`Adding ${seconds} seconds results in ${myTime.addSeconds(seconds)}`);
+console.log(`Adding ${seconds} seconds from ${myTimeString} results in ${myTime.addSeconds(seconds)}`);
+seconds = "-91.712";
+console.log(`Adding ${seconds} seconds from ${myTimeString} results in ${myTime.addSeconds(seconds)}`);
