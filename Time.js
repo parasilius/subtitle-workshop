@@ -42,7 +42,8 @@ class Time {
 }
 
 module.exports = { Time }
-// checking the class
+
+/****************** checking the class ******************
 
 const myTimeString = "00:14:31,134"
 const myTime = new Time(myTimeString);
@@ -57,3 +58,5 @@ let seconds = "91.712";
 console.log(`Adding ${seconds} seconds from ${myTimeString} results in ${myTime.addSeconds(seconds)}`);
 seconds = "-91.712";
 console.log(`Adding ${seconds} seconds from ${myTimeString} results in ${myTime.addSeconds(seconds)}`);
+
+******************* checking the calass ******************/

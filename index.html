@@ -3,26 +3,37 @@
     <head>
         <title>Subtitle Workshop</title>
     </head>
-    <script src="static/index.js"></script>
+    <script src="static/script.js"></script>
     <body>
         <h1>Subtitle Workshop</h1>
+        <h2>set default path</h2>
+        <p>Note that the current default path will be overwritten</p>
+        <form action="http://localhost:3030/set-new-path" method="POST">
+            <input type="text" name="newPath" id="newPath" placeholder="new path">
+            <input type="checkbox" name="useDefinedPath" id="useDefinedPath">
+            <label for="useDefinedPath">use defined path</label>
+            <button type="submit">Submit</button>
+        </form>
         <h2>sync subtitle with TV episode</h2>
         <form action="http://localhost:3030/subtitle-sync" method="POST">
-            <input type="text" name="username" id="username" placeholder="Enter your username">
             <input type="text" name="tv_series_name" id="tv_series_name" placeholder="Enter TV series name">
             <input type="number" name="season_number" id="season_number" placeholder="Enter season number">
             <input type="number" name="episode_number" id="episode_number" placeholder="Enter episode number">
             <button type="submit">Submit</button>
         </form>
         <h2>modify subtitle</h2>
-        <form action="http://localhost:3030/subtitle-modify" method="POST">
-            <input type="text" name="username" id="username" placeholder="Enter your username">
-            <input type="text" name="name" id="name" placeholder="TV series or movie name">
-            <input type="checkbox" name="isTV" id="isTV" onclick="showOptions()">
-            <label for="isTV">TV series</label>
-            <input type="number" name="mseason_number" id="mseason_number" placeholder="Enter season number" style="display:none">
-            <input type="number" name="mepisode_number" id="mepisode_number" placeholder="Enter episode number" style="display:none">
-            <button type="submit">Submit</button>
-        </form>
+            <form action="http://localhost:3030/subtitle-modify" method="POST">
+                <input type="text" name="name" id="name" placeholder="TV series or movie name">
+                <input type="checkbox" name="isTV" id="isTV" onclick="showOptions()">
+                <label for="isTV">TV series</label>
+                <input type="number" name="mseason_number" id="mseason_number" placeholder="Enter season number" style="display:none">
+                <input type="number" name="mepisode_number" id="mepisode_number" placeholder="Enter episode number" style="display:none">
+                <input type="text" name="secondsToAdd" id="secondsToAdd" placeholder="Seconds to add">
+                <input type="checkbox" name="replaceModifiedSub" id="replacedModifiedSub">
+                <label for="replaceModifiedSub">replace subtitle</label>
+                <input type="checkbox" name="delay" id="delay">
+                <label for="delay">delay</label>
+                <button type="submit">Submit</button>
+            </form>
     </body>
 </html>

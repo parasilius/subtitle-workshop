@@ -18,46 +18,55 @@ app.post("/subtitle-sync", (req, res) => {
     let tv = req.body.tv_series_name;
     let season = req.body.season_number;
     let episode = req.body.episode_number;
-    let username = req.body.username;
-    let path_to_episodes = '/home/' + username + '/Videos/' + tv;
-    function getDirectories(path) {
-        return fs.readdirSync(path).filter((file) => {
-            return fs.statSync(path + '/' + file).isDirectory();
-        });
-    };
-    let path_to_subtitles = path_to_episodes + '/' + getDirectories(path_to_episodes)[0]; // assuming there is only one directory
-    const regex = new RegExp(`[sS]${('0' + season).slice(-2)}.*[eE]${('0' + episode).slice(-2)}`, 'gi');
-    let old_subtitle_path;
-    for (subtitle of fs.readdirSync(path_to_subtitles))
-    {
-        if (subtitle.match(regex) != null)
-        {
-            old_subtitle_path = path_to_subtitles + '/' + subtitle;
-            break;
+    let path_to_episodes = path.resolve(path.dirname(__dirname));
+    fs.readFile(path.join(__dirname, 'static', 'path.json'), 'utf-8', (err, data) => {
+        if (err) {
+            path_to_episodes = path.join(path_to_episodes, tv);
+            console.log(`no defined path found, setting path to ${path_to_episodes}`);
+        } else {
+            let pathJson = JSON.parse(data);
+            path_to_episodes = (pathJson.useDefinedPath) ? pathJson.path : path_to_episodes;
+            path_to_episodes = path.join(path_to_episodes, tv);
+            console.log(`defined path found, setting path to ${path_to_episodes}`);
         }
-    }
-
-    let new_subtitle_path;
-    for (episode of fs.readdirSync(path_to_episodes))
-    {
-        if (episode.match(regex))
+        function getDirectories(path) {
+            return fs.readdirSync(path).filter((file) => {
+                return fs.statSync(path + '/' + file).isDirectory();
+            });
+        };
+        let path_to_subtitles = path.join(path_to_episodes, getDirectories(path_to_episodes)[0]); // assuming there is only one directory
+        const regex = new RegExp(`[sS]${('0' + season).slice(-2)}.*[eE]${('0' + episode).slice(-2)}`, 'gi');
+        let old_subtitle_path;
+        for (subtitle of fs.readdirSync(path_to_subtitles))
         {
-            episode_path = path_to_episodes + '/' + episode;
-            break;
+            if (subtitle.match(regex) != null)
+            {
+                old_subtitle_path = path_to_subtitles + '/' + subtitle;
+                break;
+            }
         }
-    }
 
-    // extension should include the dot, for example '.html'
-    function changeExtension(file, extension) {
-        const basename = path.basename(file, path.extname(file));
-        return path.join(path.dirname(file), basename + extension);
-    }
+        let new_subtitle_path;
+        for (episode of fs.readdirSync(path_to_episodes))
+        {
+            if (episode.match(regex))
+            {
+                episode_path = path_to_episodes + '/' + episode;
+                break;
+            }
+        }
 
-    new_subtitle_path = changeExtension(episode_path, '.srt');
-    fs.rename(old_subtitle_path, new_subtitle_path, function (err) {
-        if (err) throw err;
-    })
+        // extension should include the dot, for example '.html'
+        function changeExtension(file, extension) {
+            const basename = path.basename(file, path.extname(file));
+            return path.join(path.dirname(file), basename + extension);
+        }
 
+        new_subtitle_path = changeExtension(episode_path, '.srt');
+        fs.rename(old_subtitle_path, new_subtitle_path, function (err) {
+            if (err) throw err;
+        })
+    });
     res.end('Done!');
 })
 
@@ -65,57 +74,90 @@ app.post("/subtitle-modify", (req, res) => {
     let name = req.body.name;
     let season = req.body.mseason_number;
     let episode = req.body.mepisode_number;
-    let username = req.body.username;
     let isTV = req.body.isTV;
-    let subtitle_path = '/home/' + username + '/Videos/';
-    if (isTV) {
-        subtitle_path += name;
-        const regex = new RegExp(`[sS]${('0' + season).slice(-2)}.*[eE]${('0' + episode).slice(-2)}.*\.srt$`, 'gi');
-        for (subtitle of fs.readdirSync(subtitle_path))
-        {
-            if (subtitle.match(regex) != null)
-            {
-                let directory_path = subtitle_path;
-                subtitle_path += '/' + subtitle;
-                break;
-            }
-        }
-    } else {
-        for (subtitle of fs.readdirSync(subtitle_path))
-        {
-            if (subtitle.match(name))
-            {
-                let directory_path = subtitle_path;
-                subtitle_path += '/' + subtitle;
-                break;
-            }
-        }
-    }
+    let directory_path;
 
-    fs.readFile(subtitle_path, 'utf-8', (err, data) => {
+    fs.readFile(path.join(__dirname, 'static', 'path.json'), 'utf-8', (err, data) => {
         if (err) {
-            console.error(err);
-            return;
+            directory_path = path.resolve(path.dirname(__dirname));
+            console.log(`no defined path found, setting path to ${directory_path}`);
+        } else {
+            let pathJson = JSON.parse(data);
+            directory_path = (pathJson.useDefinedPath) ? pathJson.path : path.resolve(path.dirname(__dirname));
+            console.log(`defined path found, setting path to ${directory_path}`);
         }
 
-        const regexp = new RegExp(`(\\S*) --> (\\S*)`, 'g');
-        const times = data.matchAll(regexp);
-        let seconds_to_add = "1";
-        for (const time of times) {
-            const time1 = new Time(time[1]);
-            const time2 = new Time(time[2]);
-            data = data.replace(time[0], `${time1.addSeconds(seconds_to_add)} --> ${time2.addSeconds(seconds_to_add)}`);
+        if (isTV) {
+            subtitle_path = path.join(directory_path, name);
+            const regex = new RegExp(`[sS]${('0' + season).slice(-2)}.*[eE]${('0' + episode).slice(-2)}.*\.srt$`, 'gi');
+            for (subtitle of fs.readdirSync(subtitle_path))
+            {
+                if (subtitle.match(regex) != null)
+                {
+                    subtitle_path = path.join(subtitle_path, subtitle);
+                    break;
+                }
+            }
+        } else {
+            for (subtitle of fs.readdirSync(subtitle_path))
+            {
+                if (subtitle.match(name))
+                {
+                    subtitle_path = path.join(subtitle_path, subtitle);
+                    break;
+                }
+            }
         }
 
-        fs.writeFile(`/home/${username}/1.srt`, data, err => {
+        fs.readFile(subtitle_path, 'utf-8', (err, data) => {
             if (err) {
                 console.error(err);
+                return;
+            }
+
+            const regexp = new RegExp(`(\\S*) --> (\\S*)`, 'g');
+            const times = data.matchAll(regexp);
+            let seconds_to_add = req.body.secondsToAdd;
+            console.log(typeof req.body.delay);
+            if (req.body.delay == "on") seconds_to_add = `-${seconds_to_add}`;
+            for (const time of times) {
+                const time1 = new Time(time[1]);
+                const time2 = new Time(time[2]);
+                data = data.replace(time[0], `${time1.addSeconds(seconds_to_add)} --> ${time2.addSeconds(seconds_to_add)}`);
+            }
+
+            let path_to_save = path.join(__dirname, subtitle);
+            console.log(path_to_save);
+            fs.writeFile(path_to_save, data, err => {
+                if (err) {
+                    console.error(err);
+                }
+            });
+            if (req.body.replaceModifiedSub) {
+                fs.rename(path_to_save, subtitle_path, err => {
+                    if (err) {
+                        console.error(err);
+                    }
+                });
             }
         });
     });
 
     res.end('Done!');
 })
+
+app.post("/set-new-path", (req, res) => {
+    let content = `{
+        "path": "${req.body.newPath}",
+        "useDefinedPath": ${(req.body.useDefinedPath == undefined) ? false : true}
+    }`
+    fs.writeFile(path.join(__dirname, 'static', 'path.json'), content, err => {
+        if (err) {
+            console.error(err);
+        }
+    })
+    res.end('Done!');
+});
 
 app.listen(port, () => {
     console.log(`SubtitleWorkshop listening on port ${port}`);
