@@ -29,9 +29,9 @@ app.post("/subtitle-sync", (req, res) => {
             path_to_episodes = path.join(path_to_episodes, tv);
             console.log(`defined path found, setting path to ${path_to_episodes}`);
         }
-        function getDirectories(path) {
-            return fs.readdirSync(path).filter((file) => {
-                return fs.statSync(path.join(path, file)).isDirectory();
+        function getDirectories(myPath) {
+            return fs.readdirSync(myPath).filter((file) => {
+                return fs.statSync(path.join(myPath, file)).isDirectory();
             });
         };
         let path_to_subtitles = path.join(path_to_episodes, getDirectories(path_to_episodes)[0]); // assuming there is only one directory
