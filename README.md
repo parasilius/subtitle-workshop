@@ -7,7 +7,7 @@ To change the default path you can manually fill in the `new path` field and che
 To use the default path after submitting the defined path, you can just submit with `use defined path` unchecked.
 
 Whichever path you choose(default or defined), this should be the path where your TV series directories or movies are.
-Suppose there is an `<example path>`, and there is a directory, `<example path>/<myShow>/` in which the episodes of the show are available, or we have `<example path>/<myMovie>.mkv` and `<example path>/<mySubtitle>.srt`.
+Suppose there is an `<example path>`, and there is a directory, `<example path>/<myShow>/` in which the episodes of the show are available, or we have `<example path>/<myMovie>.mkv` and `<example path>/<myMovieSubtitle>.srt`.
 So if we want to manipulate `<myMovie>` or `<myShow>`, we have to either clone the repository to `<example path>` and run the app from there, or fill the `new path` to be the `<example path>`(which is an absolute path) and check `use defined path` and submit.
 ## sync subtitle with TV episode
 Considering the example in the previous section, suppose we have all the subtitles of myShow's season $i$ episodes in `<example path>/<myShow>/<season-i-subtitles>`, and the goal is to move episode $j$'s subtitle and rename it to have the same base name as the episode itself.
@@ -26,13 +26,13 @@ After submission, we should have these files in `<example path>/<myShow>`:
 `myShow.S01.E0j.srt`
 ## modify subtitle
 This section is for subtitle modification when it's out of sync with the audio.
-Considering the above example again, suppose `<myMovie>.mkv` is out of sync with its subtitle, `<myMovie>.srt`.
+Considering the above example again, suppose `<myMovie>.mkv` is out of sync with its subtitle, `<myMovieSubtitle>.srt`.
 
 If we see a sentence but after 96000ms we hear the audio, we need to forward the subtitle.
 
 To do that, we fill `TV series or movie name` with `<myMovie>`.
-Note that every substring in `<myMovie>` seperated by spaces should be in a substring of `<myMovie>.srt`.
-Also there should be only one superstring such as `<myMovie>.srt` containing these substring.
+Note that every substring in `<myMovie>` seperated by spaces should be in a substring of `<myMovieSubtitle>.srt`.
+Also there should be only one superstring such as `<myMovieSubtitle>.srt` containing these substrings.
 If we want to modify the subtitle for an episode in a directory named `<myShow>`, we fill this field with `<myShow>` instead.
 
 If we are modifying the subtitle for a movie(meaning outside a directory) we leave the `TV series` unchecked.
@@ -40,7 +40,17 @@ Otherwise we check the box and in the fields that appear we specify the season a
 
 We want to modify the subtitle 96000ms, so we can fill `Seconds to add` with each one of these:
 
-`96,000`  `96`  `96.0`  `96.00`  `96.000`  ...
+$96,000$
+
+$96$
+
+$96.0$
+
+$96.00$
+
+$96.000$
+
+...
 
 In order to replace the original subtitle check `replace subtitle`.
 Otherwise leave it unchecked and the modified subtitle will be saved in `SubtitleWorkshop`.
