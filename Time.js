@@ -36,7 +36,7 @@ class Time {
         const newTime = this.convertToSeconds() + this.seconds;
         const newSecond = ('0' + (newTime % 60).toFixed(3)).slice(-6);
         const newMinute = ('0' + (parseInt(newTime / 60) % 60)).slice(-2);
-        const newHour = ('0' + parseInt(newMinute / 60)).slice(-2);
+        const newHour = ('0' + parseInt(newTime / 3600)).slice(-2);
         return ([newHour, newMinute, newSecond].join(':')).replace(/\./g, ',');
     }
 }

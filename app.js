@@ -11,7 +11,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use("/static", express.static('./static'));
 
 app.get('/', (req, res) => {
-    res.sendFile(__dirname + '/index.html');
+    res.sendFile(path.join(__dirname, 'index.html'));
 })
 
 app.post("/subtitle-sync", (req, res) => {
@@ -31,7 +31,7 @@ app.post("/subtitle-sync", (req, res) => {
         }
         function getDirectories(path) {
             return fs.readdirSync(path).filter((file) => {
-                return fs.statSync(path + '/' + file).isDirectory();
+                return fs.statSync(path.join(path, file)).isDirectory();
             });
         };
         let path_to_subtitles = path.join(path_to_episodes, getDirectories(path_to_episodes)[0]); // assuming there is only one directory
@@ -41,7 +41,7 @@ app.post("/subtitle-sync", (req, res) => {
         {
             if (subtitle.match(regex) != null)
             {
-                old_subtitle_path = path_to_subtitles + '/' + subtitle;
+                old_subtitle_path = path.join(path_to_subtitles, subtitle);
                 break;
             }
         }
@@ -51,7 +51,7 @@ app.post("/subtitle-sync", (req, res) => {
         {
             if (episode.match(regex))
             {
-                episode_path = path_to_episodes + '/' + episode;
+                episode_path = path.join(path_to_episodes, episode);
                 break;
             }
         }
@@ -99,9 +99,11 @@ app.post("/subtitle-modify", (req, res) => {
                 }
             }
         } else {
-            for (subtitle of fs.readdirSync(subtitle_path))
+            subtitle_path = directory_path;
+            let subtitles = fs.readdirSync(subtitle_path).filter((string) => { return string.match(/.*\.srt$/) });
+            for (subtitle of subtitles)
             {
-                if (subtitle.match(name))
+                if (!(name.toLowerCase().split(' ').map((string) => { return subtitle.toLowerCase().includes(string) })).includes(false))
                 {
                     subtitle_path = path.join(subtitle_path, subtitle);
                     break;
@@ -118,7 +120,6 @@ app.post("/subtitle-modify", (req, res) => {
             const regexp = new RegExp(`(\\S*) --> (\\S*)`, 'g');
             const times = data.matchAll(regexp);
             let seconds_to_add = req.body.secondsToAdd;
-            console.log(typeof req.body.delay);
             if (req.body.delay == "on") seconds_to_add = `-${seconds_to_add}`;
             for (const time of times) {
                 const time1 = new Time(time[1]);
@@ -127,7 +128,6 @@ app.post("/subtitle-modify", (req, res) => {
             }
 
             let path_to_save = path.join(__dirname, subtitle);
-            console.log(path_to_save);
             fs.writeFile(path_to_save, data, err => {
                 if (err) {
                     console.error(err);
