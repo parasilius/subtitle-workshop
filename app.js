@@ -4,7 +4,7 @@ const fs = require('fs')
 const path = require('path')
 const { allowedNodeEnvironmentFlags } = require('process')
 const app = express()
-const port = 3030
+const port = 3000
 const {Time} = require('./Time')
 
 app.use(bodyParser.urlencoded({ extended: true }));
