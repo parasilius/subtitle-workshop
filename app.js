@@ -70,11 +70,45 @@ app.post("/subtitle-sync", (req, res) => {
     res.end('Done!');
 })
 
+function modifySubtitle(subtitle_path, subtitle, req) {
+    fs.readFile(subtitle_path, 'utf-8', (err, data) => {
+        if (err) {
+            console.error(err);
+            return;
+        }
+
+        const regexp = new RegExp(`(\\S*) --> (\\S*)`, 'g');
+        const times = data.matchAll(regexp);
+        let seconds_to_add = req.body.secondsToAdd;
+        if (req.body.delay == "on") seconds_to_add = `-${seconds_to_add}`;
+        for (const time of times) {
+            const time1 = new Time(time[1]);
+            const time2 = new Time(time[2]);
+            data = data.replace(time[0], `${time1.addSeconds(seconds_to_add)} --> ${time2.addSeconds(seconds_to_add)}`);
+        }
+
+        let path_to_save = path.join(__dirname, subtitle);
+        fs.writeFile(path_to_save, data, err => {
+            if (err) {
+                console.error(err);
+            }
+        });
+        if (req.body.replaceModifiedSub) {
+            fs.rename(path_to_save, subtitle_path, err => {
+                if (err) {
+                    console.error(err);
+                }
+            });
+        }
+    });
+}
+
 app.post("/subtitle-modify", (req, res) => {
     let name = req.body.name;
     let season = req.body.mseason_number;
     let episode = req.body.mepisode_number;
     let isTV = req.body.isTV;
+    let modifyAllEpisodes = req.body.modifyAllEpisodes;
     let directory_path;
 
     fs.readFile(path.join(__dirname, 'static', 'path.json'), 'utf-8', (err, data) => {
@@ -88,15 +122,20 @@ app.post("/subtitle-modify", (req, res) => {
         }
 
         if (isTV) {
-            subtitle_path = path.join(directory_path, name);
-            const regex = new RegExp(`[sS]${('0' + season).slice(-2)}.*[eE]${('0' + episode).slice(-2)}.*\.srt$`, 'gi');
-            for (subtitle of fs.readdirSync(subtitle_path))
-            {
-                if (subtitle.match(regex) != null)
+            if (!modifyAllEpisodes) {
+                subtitle_path = path.join(directory_path, name);
+                const regex = new RegExp(`[sS]${('0' + season).slice(-2)}.*[eE]${('0' + episode).slice(-2)}.*\.srt$`, 'gi');
+                for (subtitle of fs.readdirSync(subtitle_path))
                 {
-                    subtitle_path = path.join(subtitle_path, subtitle);
-                    break;
+                    if (subtitle.match(regex) != null)
+                    {
+                        subtitle_path = path.join(subtitle_path, subtitle);
+                        break;
+                    }
                 }
+            }
+            else {
+                directory_path = path.join(directory_path, name);
             }
         } else {
             subtitle_path = directory_path;
@@ -111,36 +150,14 @@ app.post("/subtitle-modify", (req, res) => {
             }
         }
 
-        fs.readFile(subtitle_path, 'utf-8', (err, data) => {
-            if (err) {
-                console.error(err);
-                return;
+        if (modifyAllEpisodes) {
+            let subtitles = fs.readdirSync(directory_path).filter((string) => { return string.match(/.*\.srt$/) });
+            for (subtitle of subtitles) {
+                modifySubtitle(path.join(directory_path, subtitle), subtitle, req);
             }
-
-            const regexp = new RegExp(`(\\S*) --> (\\S*)`, 'g');
-            const times = data.matchAll(regexp);
-            let seconds_to_add = req.body.secondsToAdd;
-            if (req.body.delay == "on") seconds_to_add = `-${seconds_to_add}`;
-            for (const time of times) {
-                const time1 = new Time(time[1]);
-                const time2 = new Time(time[2]);
-                data = data.replace(time[0], `${time1.addSeconds(seconds_to_add)} --> ${time2.addSeconds(seconds_to_add)}`);
-            }
-
-            let path_to_save = path.join(__dirname, subtitle);
-            fs.writeFile(path_to_save, data, err => {
-                if (err) {
-                    console.error(err);
-                }
-            });
-            if (req.body.replaceModifiedSub) {
-                fs.rename(path_to_save, subtitle_path, err => {
-                    if (err) {
-                        console.error(err);
-                    }
-                });
-            }
-        });
+        } else {
+            modifySubtitle(subtitle_path, subtitle, req);
+        }
     });
 
     res.end('Done!');
