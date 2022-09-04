@@ -39,6 +39,7 @@ If we are modifying the subtitle for a movie(meaning outside a directory) we lea
 Otherwise we check the box and in the fields that appear we specify the season and episode number.
 
 We can modify all the subtitles(all the `.srt` files) in `<example path>/<myShow>` by checking `modify all episodes`.
+We can also modify all the subtitles for a specific season in `<example path>/<myShow>` by checking `modify all season episodes`.
 
 We want to modify the subtitle 96000ms, so we can fill `Seconds to add` with each one of these:
 

@@ -28,9 +28,9 @@
                 <label for="isTV">TV series</label>
                 <input type="number" name="mseason_number" id="mseason_number" placeholder="Enter season number" style="display:none">
                 <input type="number" name="mepisode_number" id="mepisode_number" placeholder="Enter episode number" style="display:none">
-                <input type="radio" name="modifyAllEpisodes" id="modifyAllEpisodes" style="display:none" onclick="disableTVSeasonsAndEpisodes()">
+                <input type="radio" name="modifyEpisodes" value="all" id="modifyAllEpisodes" style="display:none" onclick="disableTVSeasonsAndEpisodes()">
                 <label for="modifyAllEpisodes" id="modifyAllEpisodesLabel" style="display:none">modify all episodes</label>
-                <input type="radio" name="modifyAllEpisodes" id="modifyAllSeasonEpisodes" style="display:none" onclick="disableTVEpisodes()">
+                <input type="radio" name="modifyEpisodes" value="season" id="modifyAllSeasonEpisodes" style="display:none" onclick="disableTVEpisodes()">
                 <label for="modifyAllSeasonEpisodes" id="modifyAllSeasonEpisodesLabel" style="display:none">modify all season episodes</label>
                 <input type="text" name="secondsToAdd" id="secondsToAdd" placeholder="Seconds to add">
                 <input type="checkbox" name="replaceModifiedSub" id="replacedModifiedSub">

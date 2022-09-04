@@ -108,7 +108,7 @@ app.post("/subtitle-modify", (req, res) => {
     let season = req.body.mseason_number;
     let episode = req.body.mepisode_number;
     let isTV = req.body.isTV;
-    let modifyAllEpisodes = req.body.modifyAllEpisodes;
+    let modifyEpisodes = req.body.modifyEpisodes;
     let directory_path;
 
     fs.readFile(path.join(__dirname, 'static', 'path.json'), 'utf-8', (err, data) => {
@@ -122,7 +122,7 @@ app.post("/subtitle-modify", (req, res) => {
         }
 
         if (isTV) {
-            if (!modifyAllEpisodes) {
+            if (!modifyEpisodes) {
                 subtitle_path = path.join(directory_path, name);
                 const regex = new RegExp(`[sS]${('0' + season).slice(-2)}.*[eE]${('0' + episode).slice(-2)}.*\.srt$`, 'gi');
                 for (subtitle of fs.readdirSync(subtitle_path))
@@ -150,8 +150,14 @@ app.post("/subtitle-modify", (req, res) => {
             }
         }
 
-        if (modifyAllEpisodes) {
+        if (modifyEpisodes == 'all') {
             let subtitles = fs.readdirSync(directory_path).filter((string) => { return string.match(/.*\.srt$/) });
+            for (subtitle of subtitles) {
+                modifySubtitle(path.join(directory_path, subtitle), subtitle, req);
+            }
+        } else if (modifyEpisodes == 'season') {
+            const regex = new RegExp(`[sS]${('0' + season).slice(-2)}.*\.srt$`, 'gi');
+            let subtitles = fs.readdirSync(directory_path).filter((string) => { return string.match(regex) });
             for (subtitle of subtitles) {
                 modifySubtitle(path.join(directory_path, subtitle), subtitle, req);
             }
