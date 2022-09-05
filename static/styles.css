@@ -1,0 +1,97 @@
+html {
+  font-size: 16px;
+}
+
+body {
+    font-size: 18px;
+    font-family: "Vibur", sans-serif;
+    background-color: #010a01;
+    background-image: url("/static/img/wall.jpg");
+}
+
+h1, h2, p, label, button {
+  text-transform: uppercase;
+}
+
+h1 {
+  font-size: 5.6rem;
+}
+
+h2 {
+  font-size: 2.5rem;
+}
+
+p {
+  font-size: 1.5rem;
+}
+
+label {
+  font-size: 1rem;
+}
+
+.flex-container {
+  display: flex;
+  align-items: flex-start;
+}
+
+/*-- Sign Styles --*/
+
+.sign {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.sign span {
+  text-align: center;
+  line-height: 1;
+  color: #c6e2ff;
+  -webkit-animation: neon 0.08s ease-in-out infinite alternate;
+          animation: neon 0.08s ease-in-out infinite alternate;
+}
+
+/*-- Animation Keyframes --*/
+
+@-webkit-keyframes neon {
+  from {
+    text-shadow: 0 0 6px rgba(202, 228, 225, 0.92),
+    0 0 30px rgba(202, 228, 225, 0.34),
+    0 0 12px rgba(30, 132, 242, 0.52),
+    0 0 21px rgba(30, 132, 242, 0.92),
+    0 0 34px rgba(30, 132, 242, 0.78),
+    0 0 54px rgba(30, 132, 242, 0.92);
+  }
+  to {
+    text-shadow: 0 0 6px rgba(202, 228, 225, 0.98),
+    0 0 30px rgba(202, 228, 225, 0.42),
+    0 0 12px rgba(30, 132, 242, 0.58),
+    0 0 22px rgba(30, 132, 242, 0.84),
+    0 0 38px rgba(30, 132, 242, 0.88),
+    0 0 60px #1e84f2;
+  }
+}
+
+@keyframes neon {
+  from {
+    text-shadow: 0 0 6px rgba(202, 228, 225, 0.92),
+    0 0 30px rgba(202, 228, 225, 0.34),
+    0 0 12px rgba(30, 132, 242, 0.52),
+    0 0 21px rgba(30, 132, 242, 0.92),
+    0 0 34px rgba(30, 132, 242, 0.78),
+    0 0 54px rgba(30, 132, 242, 0.92);
+  }
+  to {
+    text-shadow: 0 0 6px rgba(202, 228, 225, 0.98),
+    0 0 30px rgba(202, 228, 225, 0.42),
+    0 0 12px rgba(30, 132, 242, 0.58),
+    0 0 22px rgba(30, 132, 242, 0.84),
+    0 0 38px rgba(30, 132, 242, 0.88),
+    0 0 60px #1e84f2;
+  }
+}
+
+@font-face {
+    font-family: Vibur;
+    src: url(/static/fonts/Vibur-Regular.ttf);
+}
