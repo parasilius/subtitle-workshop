@@ -15,7 +15,7 @@
             <p><span>Note that the current default path will be overwritten</span></p>
             <form action="http://localhost:3000/set-new-path" method="POST">
                 <input type="text" name="newPath" id="newPath" placeholder="new path">
-                <input type="checkbox" name="useDefinedPath" id="useDefinedPath">
+                <input type="checkbox" name="useDefinedPath" id="useDefinedPath" class="toggle">
                 <label for="useDefinedPath"><span>use defined path</span></label>
                 <button type="submit">Submit</button>
             </form>
@@ -33,18 +33,18 @@
             <h2><span>modify subtitle</span></h2>
                 <form action="http://localhost:3000/subtitle-modify" method="POST">
                     <input type="text" name="name" id="name" placeholder="TV series or movie name">
-                    <input type="checkbox" name="isTV" id="isTV" onclick="showOptions()">
+                    <input type="checkbox" name="isTV" id="isTV" onclick="showOptions()" class="toggle">
                     <label for="isTV"><span>TV series</span></label>
                     <input type="number" name="mseason_number" id="mseason_number" placeholder="Enter season number" style="display:none">
                     <input type="number" name="mepisode_number" id="mepisode_number" placeholder="Enter episode number" style="display:none">
-                    <input type="radio" name="modifyEpisodes" value="all" id="modifyAllEpisodes" style="display:none" onclick="disableTVSeasonsAndEpisodes()">
+                    <input type="radio" name="modifyEpisodes" value="all" id="modifyAllEpisodes" style="display:none" onclick="disableTVSeasonsAndEpisodes()" class="toggle">
                     <label for="modifyAllEpisodes" id="modifyAllEpisodesLabel" style="display:none"><span>modify all episodes</span></label>
-                    <input type="radio" name="modifyEpisodes" value="season" id="modifyAllSeasonEpisodes" style="display:none" onclick="disableTVEpisodes()">
+                    <input type="radio" name="modifyEpisodes" value="season" id="modifyAllSeasonEpisodes" style="display:none" onclick="disableTVEpisodes()" class="toggle">
                     <label for="modifyAllSeasonEpisodes" id="modifyAllSeasonEpisodesLabel" style="display:none"><span>modify all season episodes</span></label>
                     <input type="text" name="secondsToAdd" id="secondsToAdd" placeholder="Seconds to add">
-                    <input type="checkbox" name="replaceModifiedSub" id="replacedModifiedSub">
+                    <input type="checkbox" name="replaceModifiedSub" id="replacedModifiedSub" class="toggle">
                     <label for="replaceModifiedSub"><span>replace subtitle</span></label>
-                    <input type="checkbox" name="delay" id="delay">
+                    <input type="checkbox" name="delay" id="delay" class="toggle">
                     <label for="delay"><span>delay</span></label>
                     <button type="submit">Submit</button>
                 </form>
