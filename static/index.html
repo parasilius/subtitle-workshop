@@ -12,7 +12,6 @@
         <div class="flex-container">
         <div class="sign">
             <h2><span>default path</span></h2>
-            <p><span>Note that the current default path will be overwritten</span></p>
             <form action="http://localhost:3000/set-new-path" method="POST">
                 <input type="text" name="newPath" id="newPath" placeholder="new path">
                 <input type="checkbox" name="useDefinedPath" id="useDefinedPath" class="toggle">
@@ -21,7 +20,7 @@
             </form>
         </div>
         <div class="sign">
-            <h2><span>sync subtitle with TV episode</span></h2>
+            <h2><span>sync subtitle</span></h2>
             <form action="http://localhost:3000/subtitle-sync" method="POST">
                 <input type="text" name="tv_series_name" id="tv_series_name" placeholder="Enter TV series name">
                 <input type="number" name="season_number" id="season_number" placeholder="Enter season number">
