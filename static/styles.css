@@ -43,9 +43,9 @@ label {
   justify-content: center;
 }
 
-/*-- Input --*/
+/*-- Input Text --*/
 
-input {
+input[type='text'], input[type='number'] {
   display: block;
   width: 200px;
   border: 2px solid #1e84f2;
@@ -64,65 +64,43 @@ input:focus {
   padding: 10px;
 }
 
-/*-- Neon Toggle --*/
+/*-- Neon Checkbox and Radio --*/
 
-.toggle {
-  width: 20px;
-  height: 20px;
-  padding: 4px;
-  text-align: center;
-  background: none;
-  -webkit-border-radius: 100%;
-  -moz-border-radius: 100%;
-  border-radius: 100%;
-  margin: auto 10px;
-  border: 1px solid #1e84f2;
-  -webkit-appearance: none;
-  -ms-appearance: none;
-  -o-appearance: none;
-  appearance: none;
-  outline: none;
-  -webkit-box-shadow: 0px 0px 1px 1px rgba(255, 255, 255, 0.2);
-  box-shadow: 0px 0px 1px 1px rgba(255, 255, 255, 0.2);
-}
-
-.toggle:hover {
+.neonLabel {
+  display: inline-flex;
+  align-items: center;
   cursor: pointer;
-  -webkit-box-shadow: 0px 0px 3px 3px rgba(155, 155, 255, 0.2);
-  box-shadow: 0px 0px 3px 3px rgba(155, 155, 255, 0.2);
 }
 
-.toggle:checked {
-  -webkit-box-shadow: 0px 0px 3px 3px rgba(155, 155, 255, 0.2);
-  box-shadow: 0px 0px 3px 3px rgba(155, 155, 255, 0.2);
+.neonInput {
+  display: none;
 }
 
-.toggle:after {
-  content: '';
-  text-shadow: 0 -1px 0 #bfbfbf;
-  position: relative;
+.neonDiv {
+  width: 1.5em;
+  height: 1.5em;
+  border: 2px solid #1e84f2;
+  border-radius: 50%;
+  margin-right: 10px;
+  margin-left: 7px;
+  box-sizing: border-box;
+  padding: 3px;
+  box-shadow: inset 0 0 0.5em #1e84f2, 0 0 10px #1e84f2;
+}
+
+.neonDiv::after {
+  content: "";
   width: 100%;
   height: 100%;
-  float: left;
-  margin: auto;
-  -webkit-border-radius: 100%;
-  -moz-border-radius:100%;
-  border-radius: 100%;
+  display: block;
+  background: #1e84f2;
+  border-radius: 50%;
+  transform: scale(0);
+  transition: transform 0.15s;
 }
 
-.toggle:checked:after {
-  color: #85ada7;
-  text-shadow: 0 1px 0 #669991;
-  -webkit-box-shadow: 0px 0px 1px 1px rgba(155, 155, 255, 0.2);
-  box-shadow: 0px 0px 1px 1px rgba(155, 155, 255, 0.2);
-  background: #1e84f2; /* Old browsers */
-  background: -moz-radial-gradient(center, ellipse cover,  #1e84f2 0%, #53cbf1 40%, #05abe0 100%); /* FF3.6+ */
-  background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%,#87e0fd), color-stop(40%,#53cbf1), color-stop(100%,#05abe0)); /* Chrome,Safari4+ */
-  background: -webkit-radial-gradient(center, ellipse cover,  #1e84f2 0%,#53cbf1 40%,#05abe0 100%); /* Chrome10+,Safari5.1+ */
-  background: -o-radial-gradient(center, ellipse cover,  #1e84f2 0%,#53cbf1 40%,#05abe0 100%); /* Opera 12+ */
-  background: -ms-radial-gradient(center, ellipse cover,  #1e84f2 0%,#53cbf1 40%,#05abe0 100%); /* IE10+ */
-  background: radial-gradient(ellipse at center,  #1e84f2 0%,#53cbf1 40%,#05abe0 100%); /* W3C */
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1e84f2', endColorstr='#05abe0',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+.neonInput:checked + .neonDiv::after {
+  transform: scale(1);
 }
 
 /*-- Neon Button --*/
@@ -148,7 +126,6 @@ input:focus {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  text-align: center;
   vertical-align: middle;
   margin-right: 40px;
   margin-left: 40px;
