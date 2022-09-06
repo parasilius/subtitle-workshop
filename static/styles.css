@@ -34,6 +34,26 @@ label {
   align-items: flex-start;
 }
 
+/*-- Input --*/
+
+input {
+  width: 200px;
+  border: 2px solid #cae4e1;
+  border-radius: 7px;
+  background: none;
+  padding: 5px;
+  color: #cae4e1;
+}
+
+input:focus {
+  outline: none;
+  border-color: #cae4e1;
+  box-shadow: 0 0 10px #1e84f2;
+  padding: 10px;
+}
+
+/*-- Neon Toggle --*/
+
 .toggle {
   width: 20px;
   height: 20px;
