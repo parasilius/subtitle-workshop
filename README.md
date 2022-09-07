@@ -9,7 +9,7 @@ To use the default path after submitting the defined path, you can just submit w
 Whichever path you choose(default or defined), this should be the path where your TV series directories or movies are.
 Suppose there is an `<example path>`, and there is a directory, `<example path>/<myShow>/` in which the episodes of the show are available, or we have `<example path>/<myMovie>.mkv` and `<example path>/<myMovieSubtitle>.srt`.
 So if we want to manipulate `<myMovie>` or `<myShow>`, we have to either clone the repository to `<example path>` and run the app from there, or fill the `new path` to be the `<example path>`(which is an absolute path) and check `use defined path` and submit.
-## sync subtitle with TV episode
+## sync subtitle
 Considering the example in the previous section, suppose we have all the subtitles of myShow's season $i$ episodes in `<example path>/<myShow>/<season-i-subtitles>`, and the goal is to move episode $j$'s subtitle and rename it to have the same base name as the episode itself.
 So we fill in the fields as follows:
 
