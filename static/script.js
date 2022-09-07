@@ -10,10 +10,10 @@ function showOptions() {
     if (isTV.checked == true) {
         season_number.style.display = "block";
         episode_number.style.display = "block";
-        modifyAllEpisodes.style.display = "block";
-        modifyAllEpisodesLabel.style.display = "block";
-        modifyAllSeasonEpisodes.style.display = "block";
-        modifyAllSeasonEpisodesLabel.style.display = "block";
+        modifyAllEpisodes.style.display = "none";
+        modifyAllEpisodesLabel.style.display = "inline-flex";
+        modifyAllSeasonEpisodes.style.display = "none";
+        modifyAllSeasonEpisodesLabel.style.display = "inline-flex";
     } else {
         season_number.style.display = "none";
         episode_number.style.display = "none";
