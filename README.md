@@ -60,3 +60,7 @@ In order to replace the original subtitle check `replace subtitle`.
 Otherwise leave it unchecked and the modified subtitle will be saved in `SubtitleWorkshop`.
 
 If we want to forward the subtitle(such as in this example), we leave `delay` unchecked.
+## To-Do List
+- [ ] Alert with pop-ups
+- [ ] Add neon borders to Submit buttons
+- [ ] Change Submit button on hover
