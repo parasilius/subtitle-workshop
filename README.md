@@ -64,3 +64,5 @@ If we want to forward the subtitle(such as in this example), we leave `delay` un
 - [ ] Alert with pop-ups
 - [ ] Add neon borders to Submit buttons
 - [ ] Change Submit button on hover
+- [ ] Refactor code for readability and maintainability
+- [ ] Improve CSS
