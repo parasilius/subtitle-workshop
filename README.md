@@ -66,3 +66,4 @@ If we want to forward the subtitle(such as in this example), we leave `delay` un
 - [ ] Change Submit button on hover
 - [ ] Refactor code for readability and maintainability
 - [ ] Improve CSS
+- [ ] Automate downloading from Subscene
