@@ -15,7 +15,7 @@ So we fill in the fields as follows:
 
 `Enter TV series`: `<myShow>`(note that this is the directory name, and may or may not be the same as the show name itself)
 
-`Enter season number`: $i($i > 0)$
+`Enter season number`: $i(i > 0)$
 
 `Enter episode number`: $j(j >= 0)$
 
