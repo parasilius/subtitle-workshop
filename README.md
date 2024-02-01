@@ -17,7 +17,7 @@ So we fill in the fields as follows:
 
 `Enter season number`: $i(i > 0)$
 
-`Enter episode number`: $j(j >= 0)$
+`Enter episode number`: $j(j \geq 0)$
 
 After submission, we should have these files in `<example path>/<myShow>`:
 
